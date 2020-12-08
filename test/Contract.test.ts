@@ -35,7 +35,9 @@ describe('ERC1155Certificate', () => {
   });
 
   it('Check certificate of hold', async () => {
-    expect(await contractInstance.certificateOfHold(receiver1.address)).to.equal([1, 2]);
+    let result = await contractInstance.getMyCertificateId(receiver1.address)
+    expect(result[0]).to.equal(1);
+    expect(result[1]).to.equal(2);
   })
 
 

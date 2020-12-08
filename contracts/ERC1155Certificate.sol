@@ -6,7 +6,7 @@ contract ERC1155Certificate is ERC1155("test") {
   using SafeMath for uint;
 
   uint256 internal certificateId = 0;
-  mapping (address => uint[]) public certificateOfHold;
+  mapping (address => uint[]) public myCertificateId;
   // mapping (uint256 => address) public certificateIssuer; // operatorが用意されているからいらないかも
 
   constructor() public { }
@@ -16,8 +16,12 @@ contract ERC1155Certificate is ERC1155("test") {
     _mint(msg.sender, certificateId, numberOfCertificate, _data);
     for (uint i = 0; i < numberOfCertificate; i++ ) {
       safeTransferFrom(msg.sender, _toAddresses[i], certificateId, 1, _data);
-      certificateOfHold[_toAddresses[i]].push(certificateId);
+      myCertificateId[_toAddresses[i]].push(certificateId);
     }
+  }
+
+  function getMyCertificateId(address _certificateHolder) external view returns (uint[] memory) {
+    return myCertificateId[_certificateHolder];
   }
 
 }
