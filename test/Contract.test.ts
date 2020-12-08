@@ -20,6 +20,10 @@ describe('ERC1155Certificate', () => {
     await contractInstanceIssuer2.issueCertificate(3, [receiver1.address, receiver2.address, receiver3.address], 0x101, {from: issuer2.address});
   });
 
+  it('check issued Certificate', async () => {
+    
+  });
+
   it('Issue certificates to receiver', async () => {
     console.log("issuer1", issuer1.address);
     console.log("receiver1", receiver1.address);
