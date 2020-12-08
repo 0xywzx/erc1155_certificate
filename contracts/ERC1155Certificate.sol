@@ -1,7 +1,23 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.2;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155Holder.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
-contract ERC1155Certificate is ERC1155Holder {
-  
+contract ERC1155Certificate is ERC1155("test") {
+  using SafeMath for uint;
+
+  uint256 internal certificateId = 0;
+  mapping (address => uint[]) public certificateOfHold;
+  // mapping (uint256 => address) public certificateIssuer; // operatorが用意されているからいらないかも
+
+  constructor() public { }
+
+  function issueCertificate(uint256 numberOfCertificate, address[] calldata _toAddresses, bytes calldata _data) external {
+    certificateId = certificateId.add(1);
+    _mint(msg.sender, certificateId, numberOfCertificate, _data);
+    for (uint i = 0; i < numberOfCertificate; i++ ) {
+      safeTransferFrom(msg.sender, _toAddresses[i], certificateId, 1, _data);
+      certificateOfHold[_toAddresses[i]].push(certificateId);
+    }
+  }
+
 }
