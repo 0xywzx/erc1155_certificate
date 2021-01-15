@@ -12,20 +12,22 @@ contract ERC1155Certificate is ERC1155("test") {
   struct Certificate {
     uint256 id;
     string nameOfCertificate;
+    string ipfsHash;
     address issuer;
-    uint256 issuedata;
+    uint256 issuedate;
   }
 
   Certificate[] public certificates;
 
   constructor() public { }
 
-  function issueCertificate(string calldata _nameOfCertificate, uint256 numberOfCertificate, address[] calldata _toAddresses, bytes calldata _data) external {
+  function issueCertificate(string calldata _nameOfCertificate, uint256 numberOfCertificate, address[] calldata _toAddresses, string calldata _ipfsHash) external {
+    bytes memory _ipfsHashtoBytes = bytes(_ipfsHash);
     certificateId = certificateId.add(1);
-    _mint(msg.sender, certificateId, numberOfCertificate, _data);
-    certificates.push(Certificate(certificateId, _nameOfCertificate, msg.sender, now));
+    _mint(msg.sender, certificateId, numberOfCertificate, _ipfsHashtoBytes);
+    certificates.push(Certificate(certificateId, _nameOfCertificate, _ipfsHash, msg.sender, now));
     for (uint i = 0; i < numberOfCertificate; i++ ) {
-      safeTransferFrom(msg.sender, _toAddresses[i], certificateId, 1, _data);
+      safeTransferFrom(msg.sender, _toAddresses[i], certificateId, 1, _ipfsHashtoBytes);
       myCertificateId[_toAddresses[i]].push(certificateId);
     }
   }

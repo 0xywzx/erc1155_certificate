@@ -15,9 +15,9 @@ describe('ERC1155Certificate', () => {
     contractInstance = await deployContract(deployer, ContractAbi);
     // issueCertificateの実行
     contractInstanceIssuer1 = await contractInstance.connect(issuer1)
-    await contractInstanceIssuer1.issueCertificate("Certificate No.1", 2, [receiver1.address, receiver2.address], 0x101, {from: issuer1.address});
+    await contractInstanceIssuer1.issueCertificate("Certificate No.1", 2, [receiver1.address, receiver2.address], "Qmf6Q8jZXQLdHFwoj2cWb5affV4E1nfnwF9wkNwcQY7Y7U", {from: issuer1.address});
     contractInstanceIssuer2 = await contractInstance.connect(issuer2)
-    await contractInstanceIssuer2.issueCertificate("Certificate No.2", 3, [receiver1.address, receiver2.address, receiver3.address], 0x101, {from: issuer2.address});
+    await contractInstanceIssuer2.issueCertificate("Certificate No.2", 3, [receiver1.address, receiver2.address, receiver3.address], "Qmf6Q8jZXQLdHFwoj2cWb5affV4E1nfnwF9wkNwcQY7Y7U", {from: issuer2.address});
   });
 
   it('check issued Certificate', async () => {
